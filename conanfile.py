@@ -14,6 +14,8 @@ class GTestConan(ConanFile):
     exports = "CMakeLists.txt"
     url="http://github.com/lasote/conan-winiconv"
     license="https://github.com/win-iconv/win-iconv"
+    options = {"non_const_iconv": [True, False]}
+    default_options = "non_const_iconv=False"
     
     def config(self):
         try: # Try catch can be removed when conan 0.8 is released
@@ -50,3 +52,5 @@ class GTestConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ['iconv']
+        if self.options.non_const_iconv:
+            self.cpp_info.defines.append('WINICONV_CONST=')
